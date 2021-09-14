@@ -1,0 +1,73 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	box-sizing: border-box;
+	background-color: lightgrey;
+}
+
+.game-container {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#score {
+	text-transform: uppercase;
+	text-align: center;
+	color: forestgreen;
+	font-size: 3.5rem;
+	margin-bottom: 1rem;
+}
+
+#snake-map {
+	position: relative;
+	border: 1px solid black;
+}
+
+.row {
+	width: 50rem;
+	display: block;
+}
+
+.row::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.cell {
+	width: 2.5rem;
+	height: 2.5rem;
+	display: block;
+	float: left;
+}
+
+.cell-snake {
+	background-color: forestgreen;
+}
+
+.cell-apple {
+	background-color: red;
+}
+
+#game-over {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transition: opacity 1s ease;
+	opacity: 0;
+	color: #000;
+}
