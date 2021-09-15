@@ -78,37 +78,7 @@ const GameCtrl = (function(IntrefaceCtrl, getOppositeDirection) {
         direction = 'left',
         previousDirection = 'up',
         isRunning = true;
-
-    const SnakeMovement = {
-        up: () => {
-            if (snake[0][0] == 0) {
-                snake.unshift([mapDimensions - 1, snake[0][1]]);
-                return;
-            }
-            snake.unshift([snake[0][0] - 1, snake[0][1]]);
-        },
-        down: () => {
-            if (snake[0][0] == mapDimensions - 1) {
-                snake.unshift([0, snake[0][1]]);
-                return;
-            }
-            snake.unshift([snake[0][0] + 1, snake[0][1]]);
-        },
-        left: () => {
-            if (snake[0][1] == 0) {
-                snake.unshift([snake[0][0], mapDimensions - 1]);
-                return;
-            }
-            snake.unshift([snake[0][0], snake[0][1] - 1]);
-        },
-        right: () => {
-            if (snake[0][1] == mapDimensions - 1) {
-                snake.unshift([snake[0][0], 0]);
-                return;
-            }
-            snake.unshift([snake[0][0], snake[0][1] + 1]);
-        }
-    }
+    
 
     const loadEventListener = () => {
         document.addEventListener("keydown", (e) => {
@@ -126,12 +96,26 @@ const GameCtrl = (function(IntrefaceCtrl, getOppositeDirection) {
             }
         });
     }
+
+    const makeNextMove = (x, y, direction) => {
+        switch (direction) {
+            case 'up': x -= 1; break;
+            case 'down': x += 1; break;
+            case 'left':  y -= 1; break;
+            case 'right': y += 1; break;
+        }
+        if (x < 0) x = mapDimensions - 1;
+        if (y < 0) y = mapDimensions - 1;
+        if (x === mapDimensions) x = 0;
+        if (y === mapDimensions) y = 0;
+        snake.unshift([x, y]);
+    }
     
-    function setMovement(direction) {
+    const setMovement = (direction) => {
         if(previousDirection === getOppositeDirection(direction)) {
-            SnakeMovement[previousDirection]();
+            makeNextMove(snake[0][0], snake[0][1], previousDirection);
         } else {
-            SnakeMovement[direction]();
+            makeNextMove(snake[0][0], snake[0][1], direction);
             previousDirection = direction;
         }
         const snakeTouches = IntrefaceCtrl.checkCollisions(snake[0][0], snake[0][1]);
